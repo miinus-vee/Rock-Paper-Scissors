@@ -12,7 +12,20 @@
 
     <button onclick="playgame('Scissors');">Scissors</button>
 
+    <button onclick="score.losses=0;
+    score.wins=0;
+    score.ties=0;
+    console.log('SCORE RESET')">Reset</button>
+
     <script>
+
+      const score= {
+        wins: 0,
+        losses: 0,
+        ties: 0
+      }
+
+      console.log(localStorage.getItem('score'));
 
       function playgame(playermove){
         const compMove= comppick();
@@ -50,16 +63,32 @@
             result='have tie';
           } 
             else if (compmath ==='Rock'){
-              result='win';
+              result='Win';
             }
             else if (compmath ==='Scissors'){
               result='lose';
           }
           }
-        
-        alert(`You picked ${playermove}. Computer picked ${compmath}.You ${result}.`);
+
+        if (result === 'Win'){
+          score.wins+=1;
+        }else if (result === 'lose'){
+          score.losses+=1;
+        }else if(result === 'have tie'){
+          score.ties+=1;
+        }
+
+        localStorage.setItem('score', JSON.stringify(score));
+
+        alert(`You picked ${playermove}. Computer picked ${compmath}.You ${result}. \n
+        Wins: ${score.wins}\n
+        losses: ${score.losses} \n
+        ties: ${score.ties}`);
         console.log(`You picked ${playermove}. Computer picked ${compmath}.You ${result}.`);
       }
+
+
+
 
     
       let compmath = "";
@@ -72,6 +101,9 @@
         } else if (randomnum >= 2 / 3 && randomnum < 3 / 3) {
           compmath = "Scissors";
         }
+
+
+        
       }
     </script>
   </body>
